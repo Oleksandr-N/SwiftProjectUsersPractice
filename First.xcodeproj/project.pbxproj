@@ -15,6 +15,7 @@
 		111A99BF263D5EDA008CB876 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 111A99BD263D5EDA008CB876 /* LaunchScreen.storyboard */; };
 		11EA5D5F2694C82700CDA60D /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EA5D5E2694C82700CDA60D /* TableViewController.swift */; };
 		11EA5D612699B03200CDA60D /* DigitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EA5D602699B03200CDA60D /* DigitTableViewCell.swift */; };
+		11EA5D642699BA7200CDA60D /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 11EA5D632699BA7200CDA60D /* users.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		111A99C0263D5EDA008CB876 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11EA5D5E2694C82700CDA60D /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		11EA5D602699B03200CDA60D /* DigitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitTableViewCell.swift; sourceTree = "<group>"; };
+		11EA5D632699BA7200CDA60D /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				111A99B2263D5ED9008CB876 /* AppDelegate.swift */,
+				11EA5D632699BA7200CDA60D /* users.json */,
 				111A99B4263D5ED9008CB876 /* SceneDelegate.swift */,
 				111A99B6263D5ED9008CB876 /* ViewController.swift */,
 				111A99B8263D5ED9008CB876 /* Main.storyboard */,
@@ -130,6 +133,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11EA5D642699BA7200CDA60D /* users.json in Resources */,
 				111A99BF263D5EDA008CB876 /* LaunchScreen.storyboard in Resources */,
 				111A99BC263D5EDA008CB876 /* Assets.xcassets in Resources */,
 				111A99BA263D5ED9008CB876 /* Main.storyboard in Resources */,

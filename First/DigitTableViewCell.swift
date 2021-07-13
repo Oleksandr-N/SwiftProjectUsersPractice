@@ -9,13 +9,15 @@ import UIKit
 
 class DigitTableViewCell: UITableViewCell {
     
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var userName: UILabel!
+    @IBOutlet var phoneNumberLabel: UILabel!
 
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        titleLabel.textColor =  .red
+        userName.textColor =  .red
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

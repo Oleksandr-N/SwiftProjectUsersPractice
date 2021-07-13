@@ -7,57 +7,79 @@
 
 import UIKit
 
+struct User: Decodable {
+    let firstName: String
+    let lastName: String
+    let phoneNumber: String
+    let gender: String
+    
+}
+
 class TableViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    //var tableData: [String] = []
-    struct NumberNames {
-        
-        let digit: Int
-        let name: String
-        
-    }
     
+    var users: [User] = []
     
-    var numberNamesArray: [NumberNames] = []
+//    var numberNamesArray: [NumberNames] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        
-      //  tableData = ["1", "2", "3"]
-        numberNamesArray = [
-            NumberNames.init(digit: 1, name: "ONE"),
-            NumberNames.init(digit: 2, name: "TWO"),
-            NumberNames.init(digit: 3, name: "THREE"),
-            NumberNames.init(digit: 4, name: "FOUR")
-        ]
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 45
+      
+        users = getUsersList()
+
     }
     
+    func getUsersList() -> [User] {
+
+            if let path = Bundle.main.path(forResource: "users", ofType: "json") {
+
+                do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let users: [User] = try decoder.decode([User].self, from: data)
+
+                    return users
+                } catch {
+                    print(error)
+                    // handle error
+                    return []
+                }
+            }
+
+            return []
+        }
 }
 
 extension TableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberNamesArray.count
+        return users.count
     }
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-//        let number = numberNamesArray[indexPath.row]
-//        cell.textLabel?.text = String(number.digit)
-//        cell.detailTextLabel?.text = number.name
-//        print("Section = \(indexPath.section), Row = \(indexPath.row)")
-//        return cell
-//    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DigitCell", for: indexPath) as! DigitTableViewCell
-        let number = numberNamesArray[indexPath.row]
-        cell.titleLabel.text = String(number.digit)
+        let user = users[indexPath.row]
+        cell.userName.text = user.firstName + " " + user.lastName
+        cell.phoneNumberLabel.text = user.phoneNumber
         print("Section = \(indexPath.section), Row = \(indexPath.row)")
         return cell
     }
-    
-
-    
 }
+    extension TableViewController: UITableViewDelegate {
+        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 82
+        }
+        
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            print("Did select: Section")
+        }
+    }
+
