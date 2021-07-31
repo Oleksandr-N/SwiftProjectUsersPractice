@@ -12,7 +12,11 @@ struct User: Decodable {
     let lastName: String
     let phoneNumber: String
     let gender: String
+    let picture: String
     
+    var fullName: String  {
+        firstName + " " + lastName
+    }
 }
 
 class TableViewController: UIViewController {
@@ -20,18 +24,16 @@ class TableViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     
-    var users: [User] = []
-    
-//    var numberNamesArray: [NumberNames] = []
+    var usersArray: [User] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 45
+        tableView.estimatedRowHeight = 80
       
-        users = getUsersList()
+        usersArray = getUsersList()
 
     }
     
@@ -61,25 +63,39 @@ class TableViewController: UIViewController {
 extension TableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return usersArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DigitCell", for: indexPath) as! DigitTableViewCell
-        let user = users[indexPath.row]
-        cell.userName.text = user.firstName + " " + user.lastName
-        cell.phoneNumberLabel.text = user.phoneNumber
-        print("Section = \(indexPath.section), Row = \(indexPath.row)")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserCellID", for: indexPath) as! UserTableViewCell
+        let currentUser = usersArray[indexPath.row]
+//        cell.fullNameLabel.text = currentUser.firstName + " " + currentUser.lastName
+//        cell.phoneNumberLabel.text = user.phoneNumber
+//        print("Section = \(indexPath.section), Row = \(indexPath.row)")
+//        //        cell.backgroundColor = .green
+//        if user.gender == "male" {
+//            cell.backgroundColor = UIColor(red: 0.46, green: 0.69, blue: 1, alpha: 1)
+//        } else if user.gender == "female" {
+//            cell.backgroundColor = .red
+//        }
+        cell.update(with: currentUser)
         return cell
     }
 }
-    extension TableViewController: UITableViewDelegate {
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 82
+
+extension TableViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Did select: Section")
+        tableView.deselectRow(at: indexPath, animated: true)
+        if let viewController = storyboard?.instantiateViewController(
+            identifier: "UserDetailViewController") as? UserDetailViewController {
+            
+            let user = usersArray[indexPath.row]
+            viewController.user = user
+            navigationController?.pushViewController(viewController, animated: true)
         }
         
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            print("Did select: Section")
-        }
     }
+}
 
