@@ -8,24 +8,43 @@
 import UIKit
 
 class UserDetailViewController: UIViewController {
+    
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var birthdayLabel: UILabel!
+
 
     var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameLabel.text = user?.fullName
+        birthdayLabel.text = makeDateString()
+        imageView.image = UIImage.init(named: user?.picture ?? "")
 
-        // Do any additional setup after loading the view.
+    }
+    func makeBirthday() -> String {
+        
+        guard let user = user else {
+            return ""
+        }
+        
+        let formatter = DateFormatter.init()
+//        formatter.dateStyle = .full
+//        formatter.timeStyle = .full
+        
+        formatter.dateFormat = "MMM d, yyyy"
+        
+        return formatter.string(from: user.date)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func makeDateString() -> String {
+        let date = Date()
+        let otherDate = date.addingTimeInterval(60 * 60 * 48)
+        let formatter = DateFormatter.init()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: otherDate)
     }
-    */
+    
 
 }

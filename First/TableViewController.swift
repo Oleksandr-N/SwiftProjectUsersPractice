@@ -7,17 +7,6 @@
 
 import UIKit
 
-struct User: Decodable {
-    let firstName: String
-    let lastName: String
-    let phoneNumber: String
-    let gender: String
-    let picture: String
-    
-    var fullName: String  {
-        firstName + " " + lastName
-    }
-}
 
 class TableViewController: UIViewController {
 
@@ -33,31 +22,9 @@ class TableViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 80
       
-        usersArray = getUsersList()
+        usersArray = UsersFactory.generateUsers()
 
     }
-    
-    func getUsersList() -> [User] {
-
-            if let path = Bundle.main.path(forResource: "users", ofType: "json") {
-
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let users: [User] = try decoder.decode([User].self, from: data)
-
-                    return users
-                } catch {
-                    print(error)
-                    // handle error
-                    return []
-                }
-            }
-
-            return []
-        }
 }
 
 extension TableViewController: UITableViewDataSource {
@@ -68,7 +35,7 @@ extension TableViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserCellID", for: indexPath) as! UserTableViewCell
-        let currentUser = usersArray[indexPath.row]
+        let user = usersArray[indexPath.row]
 //        cell.fullNameLabel.text = currentUser.firstName + " " + currentUser.lastName
 //        cell.phoneNumberLabel.text = user.phoneNumber
 //        print("Section = \(indexPath.section), Row = \(indexPath.row)")
@@ -78,7 +45,7 @@ extension TableViewController: UITableViewDataSource {
 //        } else if user.gender == "female" {
 //            cell.backgroundColor = .red
 //        }
-        cell.update(with: currentUser)
+        cell.update(with: user)
         return cell
     }
 }

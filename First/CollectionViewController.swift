@@ -12,6 +12,9 @@ class CollectionViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     var usersArray: [User] = []
+    
+    let formatter = DateFormatter.init()
+
 
 
 
@@ -19,42 +22,41 @@ class CollectionViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        usersArray = UsersFactory.generateUsers()
+        
+        formatter.dateFormat = "yyyy"
+
+        
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let width = (UIScreen.main.bounds.width - 30) / 3
+                    layout.itemSize = CGSize(
+                        width: width,
+                        height: width)
+
+                    layout.invalidateLayout()
+                }
 
     }
     
 }
-
-func getUsersList() -> [User] {
-
-        if let path = Bundle.main.path(forResource: "users", ofType: "json") {
-
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let users: [User] = try decoder.decode([User].self, from: data)
-
-                return users
-            } catch {
-                print(error)
-                // handle error
-                return []
-            }
-        }
-
-        return []
-    }
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return usersArray.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserCollectionViewCell", for: indexPath) as! UserCollectionViewCell
-        let user = usersArray[indexPath.row]
-        cell.imageView.image = UIImage(named: user.picture)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "UserCollectionViewCell",
+            for: indexPath) as! UserCollectionViewCell
+        
+        let user = usersArray[indexPath.item]
+                        
+        cell.update(with: user, formatter: formatter)
 
         return cell
     }
@@ -64,4 +66,26 @@ extension CollectionViewController: UICollectionViewDataSource {
 
 extension CollectionViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let viewController = storyboard?.instantiateViewController(
+            identifier: "UserDetailViewController") as? UserDetailViewController {
+            
+            let user = usersArray[indexPath.item]
+            viewController.user = user
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+
+    }
+    
+}
+
+extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+    
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        .init(width: 50, height: 50)
+//    }
 }

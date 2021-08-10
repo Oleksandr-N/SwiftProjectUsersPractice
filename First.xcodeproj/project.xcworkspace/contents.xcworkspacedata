@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/oleksandr/Documents/First/First/users.json">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>

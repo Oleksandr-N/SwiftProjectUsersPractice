@@ -11,12 +11,18 @@ class UserTableViewCell: UITableViewCell {
     
     @IBOutlet private var fullNameLabel: UILabel!
     @IBOutlet private var phoneNumberLabel: UILabel!
+    @IBOutlet private var imageViewTable: UIImageView!
+
 
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         fullNameLabel.textColor =  .black
+        
+        imageViewTable.layer.cornerRadius = 5
+        imageViewTable.layer.borderColor = UIColor.red.cgColor
+        imageViewTable.layer.borderWidth = 2
         
     }
 
@@ -26,13 +32,14 @@ class UserTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func update(with currentUser: User) {
-        fullNameLabel.text = currentUser.fullName
-        phoneNumberLabel.text = currentUser.phoneNumber
+    func update(with user: User) {
+        fullNameLabel.text = user.fullName
+        phoneNumberLabel.text = user.phoneNumber
+        imageViewTable.image = UIImage (named: user.picture)
         
-        if currentUser.gender == "male" {
+        if user.gender == "male" {
             backgroundColor = UIColor(red: 0.46, green: 0.69, blue: 1, alpha: 1)
-        } else if currentUser.gender == "female" {
+        } else if user.gender == "female" {
             backgroundColor = .red
         }
 
