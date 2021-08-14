@@ -21,7 +21,7 @@ class UserTableViewCell: UITableViewCell {
         fullNameLabel.textColor =  .black
         
         imageViewTable.layer.cornerRadius = 5
-        imageViewTable.layer.borderColor = UIColor.red.cgColor
+        
         imageViewTable.layer.borderWidth = 2
         
     }
@@ -38,9 +38,10 @@ class UserTableViewCell: UITableViewCell {
         imageViewTable.image = UIImage (named: user.picture)
         
         if user.gender == "male" {
-            backgroundColor = UIColor(red: 0.46, green: 0.69, blue: 1, alpha: 1)
+            imageViewTable.layer.borderColor = UIColor(red: 0.46, green: 0.69, blue: 1, alpha: 1).cgColor
         } else if user.gender == "female" {
-            backgroundColor = .red
+            imageViewTable.layer.borderColor = UIColor.red.cgColor
+            
         }
 
     }

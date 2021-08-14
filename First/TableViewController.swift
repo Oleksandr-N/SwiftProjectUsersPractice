@@ -36,15 +36,6 @@ extension TableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserCellID", for: indexPath) as! UserTableViewCell
         let user = usersArray[indexPath.row]
-//        cell.fullNameLabel.text = currentUser.firstName + " " + currentUser.lastName
-//        cell.phoneNumberLabel.text = user.phoneNumber
-//        print("Section = \(indexPath.section), Row = \(indexPath.row)")
-//        //        cell.backgroundColor = .green
-//        if user.gender == "male" {
-//            cell.backgroundColor = UIColor(red: 0.46, green: 0.69, blue: 1, alpha: 1)
-//        } else if user.gender == "female" {
-//            cell.backgroundColor = .red
-//        }
         cell.update(with: user)
         return cell
     }
